@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import MovieCard from './MovieCard';
-import { Link } from 'react-router-dom';
+
 export default class Movie extends Component {
   constructor(props) {
     super(props);
@@ -13,8 +13,7 @@ export default class Movie extends Component {
   componentDidMount() {
     // change this line to grab the id passed on the URL
     
-      const id = Number(this.props.match.params.id);
-      this.fetchMovie(id);
+   this.fetchMovie(this.props.match.params.id);
     }
   fetchMovie = id => {
     axios
@@ -39,15 +38,16 @@ export default class Movie extends Component {
      console.log(this.state);
    }
 
-  render() {
+   render() {
     if (!this.state.movie) {
       return <div>Loading movie information...</div>;
     }
-
     const { title, director, metascore, stars } = this.state.movie;
     return (
-      <MovieCard movie={this.state.movie}/>
-      
+      <div className="save-wrapper">
+          <MovieCard title={title} director={director} metascore={metascore} stars={stars}/>
+        <div onClick={() => this.saveMovie()}className="save-button">Save</div>
+      </div>
     );
   }
 }
